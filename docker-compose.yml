@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  web:
+    image: nginx:latest
+    ports: "8080:80"
+    restart: always
+  network:
+        - code-network
+
+  php:
+    image: php7.2-fpm
+    restart: always
+    network:
+        - code-network
+
+  mysql:
+    image: mysql:latest
+      enviroment:
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        MYSQL_DATABASE: wordpress
+        MYSQL_USER: wordpress
+        MYSQL_PASSWORD: wordpress
+    networks:
+        - code-network
+    restart: always
+
+networks:
+    code-network:
+        driver: bridge
+
+#    volumes: (if volumes are needed)
+#      - wproot:/var/www/html
